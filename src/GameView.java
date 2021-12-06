@@ -43,6 +43,7 @@ public class GameView {
 
     public void askForMove() {
         // Display prompt for user input
+        System.out.println();
         System.out.println("Please enter the direction you would like to move the piece.");
         System.out.println("Moves should be represented by the cardinal direction in which you wish to move. You can only move diagonally in Lasca (much like Checkers)");
         System.out.println("Choose from: [ NE, SE, SW, NW ]");

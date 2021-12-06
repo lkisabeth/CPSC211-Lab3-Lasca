@@ -25,15 +25,6 @@ public class LascaBoard {
         return board[row][column];
     }
 
-    public BoardPosition findPosition(BoardSpace what) {
-        for (int row = 0; row < board.length; row++)
-            for (int column = 0; column < board[0].length; column++)
-                if (board[row][column] == what)
-                    return new BoardPosition(row, column);;
-
-        return null;
-    }
-
     public void movePlayer (BoardPosition startingPosition, BoardSpace which, BoardPosition newPosition) {
         // All moves passed to this method should already have been checked
         // to make sure they're legal.  Models need to check again, though, just
@@ -49,9 +40,6 @@ public class LascaBoard {
         if (illegalBoardPosition(newPosition.getRow(), newPosition.getColumn()))
             return;
 
-        // We have a sane request, find the position of the player
-        BoardPosition position = findPosition(which);
-
         // Make sure the move is legal.  A move is legal if:
         //
         // 1) And the destination is available
@@ -59,12 +47,12 @@ public class LascaBoard {
         if (board[newPosition.getRow()][newPosition.getColumn()] != BoardSpace.Available)
             return;
 
-        if (Math.abs(position.getRow() - newPosition.getRow()) > 1 || Math.abs(position.getColumn() - newPosition.getColumn()) > 1)
+        if (Math.abs(startingPosition.getRow() - newPosition.getRow()) > 1 || Math.abs(startingPosition.getColumn() - newPosition.getColumn()) > 1)
             return;
 
         // Should be a legal move, make it
         lastPlayer = which;
-        board[position.getRow()][position.getColumn()] = BoardSpace.Available;
+        board[startingPosition.getRow()][startingPosition.getColumn()] = BoardSpace.Available;
         board[newPosition.getRow()][newPosition.getColumn()] = which;
     }
 

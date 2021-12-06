@@ -49,14 +49,15 @@ class FileHandlerTest {
         FileHandler fileHandler = new FileHandler();
         LascaBoard board = new LascaBoard();
         BoardSpace currentPlayer = BoardSpace.Red;
+        BoardPosition startingPosition = new BoardPosition(1, 1);
         String[] cardinals = {"NE", "SE", "SW", "NW"};
 
         for (String cardinal: cardinals) {
-            if (! fileHandler.convertToPosition(cardinal, board, currentPlayer).getClass().equals(BoardPosition.class))
+            if (! fileHandler.convertToPosition(startingPosition, cardinal, board, currentPlayer).getClass().equals(BoardPosition.class))
                 fail("A correctly formatted cardinal direction did not return a Board Position.");
         }
 
-        if (! fileHandler.convertToPosition("Not a cardinal", board, currentPlayer).getClass().equals(BoardPosition.class))
+        if (! fileHandler.convertToPosition(startingPosition, "Not a cardinal", board, currentPlayer).getClass().equals(BoardPosition.class))
             fail("An improperly formatted cardinal direction was not handled correctly.");
     }
 }

@@ -36,10 +36,25 @@ public class TwoPlayerController {
             Scanner scan = new Scanner(System.in);
             int row = scan.nextInt();
             // now get the column
-            view.askForColumn();;
+            view.askForColumn();
             int column = scan.nextInt();
             // instantiate a board position with those coordinates
             BoardPosition startingPosition = new BoardPosition(row, column);
+
+            // If the position the player chose didn't belong to them, yell at them and make them pick a different one!
+            while (! belongsToCurrentPlayer(startingPosition)) {
+                System.out.println("That piece doesn't belong to you! Try again!");
+                // ask current player for the coordinates of the piece they would like to move.
+                // start with the row
+                view.askForRow(currentPlayer);
+                // accept row input from player
+                row = scan.nextInt();
+                // now get the column
+                view.askForColumn();
+                column = scan.nextInt();
+                // instantiate a board position with those coordinates
+                startingPosition = new BoardPosition(row, column);
+            }
 
             // go ahead and jump to next line on scanner to avoid issues.
             scan.nextLine();
@@ -56,7 +71,7 @@ public class TwoPlayerController {
             // fileHandler.saveMove(moveAsCardinal);
 
             // make that move on the board
-            BoardPosition move = fileHandler.convertToPosition(moveAsCardinal, board, currentPlayer);
+            BoardPosition move = fileHandler.convertToPosition(startingPosition, moveAsCardinal, board, currentPlayer);
             board.movePlayer(startingPosition, currentPlayer, move);
 
             // switch to the next player
@@ -80,6 +95,10 @@ public class TwoPlayerController {
             moveAsCardinal = scan.nextLine().toUpperCase();
         }
         return moveAsCardinal;
+    }
+
+    private boolean belongsToCurrentPlayer(BoardPosition startingPosition) {
+        return currentPlayer == board.get(startingPosition.getRow(), startingPosition.getColumn());
     }
 
     private void switchPlayer() {

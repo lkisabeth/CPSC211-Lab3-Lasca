@@ -50,9 +50,8 @@ public class FileHandler {
 
     // refactor to load move entirely
 
-    public BoardPosition convertToPosition(String cardinalDirection, LascaBoard board, BoardSpace currentPlayer) {
+    public BoardPosition convertToPosition(BoardPosition startingPosition, String cardinalDirection, LascaBoard board, BoardSpace currentPlayer) {
         // Convert the cardinal direction given by the player to a move that can be used by the board.movePlayer method.
-        BoardPosition currentPosition = board.findPosition(currentPlayer);
         int x = 0;
         int y = 0;
         switch (cardinalDirection) {
@@ -77,6 +76,6 @@ public class FileHandler {
                 x = -1;
             }
         }
-        return new BoardPosition(currentPosition.getRow()+y, currentPosition.getColumn()+x);
+        return new BoardPosition(startingPosition.getRow()+y, startingPosition.getColumn()+x);
     }
 }
