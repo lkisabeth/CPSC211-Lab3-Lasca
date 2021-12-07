@@ -1,9 +1,6 @@
-import java.util.Deque;
-
 public class BoardPosition {
     private int row;
     private int column;
-    private Deque pieces;
 
     public BoardPosition (int row, int column) {
         this.row = row;
@@ -16,10 +13,6 @@ public class BoardPosition {
 
     public int getColumn() {
         return column;
-    }
-
-    public Deque getPieces() {
-        return pieces;
     }
 
     @Override

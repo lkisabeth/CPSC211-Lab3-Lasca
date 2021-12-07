@@ -1,13 +1,8 @@
 public class LascaBoard {
     private BoardSpace [][] board = new BoardSpace [7][7];
-    private BoardSpace lastPlayer = BoardSpace.Red;
 
     public LascaBoard () {
         createBoard(7, 7);
-    }
-
-    public LascaBoard (int width, int height) {
-        createBoard(width, height);
     }
 
     public int getWidth () {
@@ -51,9 +46,9 @@ public class LascaBoard {
             return;
 
         // Should be a legal move, make it
-        lastPlayer = which;
         board[startingPosition.getRow()][startingPosition.getColumn()] = BoardSpace.Available;
         board[newPosition.getRow()][newPosition.getColumn()] = which;
+        board[newPosition.getRow()][newPosition.getColumn()].pieces.addAll(board[startingPosition.getRow()][startingPosition.getColumn()].pieces);
     }
 
     public boolean winner () {
@@ -76,7 +71,7 @@ public class LascaBoard {
             for (int column = 0; column < width; column++)
                 board[row][column] = BoardSpace.Available;
 
-        // Place the players in their starting spaces. Using loops would be better here but this was easier to figure out quickly.
+        // Place the pieces in their starting spaces. Using loops would be better here but this was easier to figure out quickly.
         board[0][0] = BoardSpace.Red;
         board[0][2] = BoardSpace.Red;
         board[0][4] = BoardSpace.Red;
@@ -99,6 +94,15 @@ public class LascaBoard {
         board[height-3][2] = BoardSpace.Black;
         board[height-3][4] = BoardSpace.Black;
         board[height-3][6] = BoardSpace.Black;
+
+        // Add 'pieces' to the Deques
+        for (int row = 0; row < height; row++)
+            for (int column = 0; column < width; column++)
+                if (board[row][column] == BoardSpace.Red) {
+                    board[row][column].pieces.addFirst("R");
+                } else if (board[row][column] == BoardSpace.Black) {
+                    board[row][column].pieces.addFirst("B");
+                }
     }
 
     private boolean illegalBoardPosition (int row, int column) {
